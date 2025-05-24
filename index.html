@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing Calculator | Bizziy Tech</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #39c3ff 0%, #1a9fd9 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(57, 195, 255, 0.1), 0 10px 10px -5px rgba(57, 195, 255, 0.04);
+        }
+        .range-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #39c3ff;
+            cursor: pointer;
+        }
+        .range-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #39c3ff;
+            cursor: pointer;
+        }
+        .complexity-btn.active {
+            background-color: #e6f7ff;
+            border-color: #39c3ff;
+            color: #0077b6;
+        }
+        .complexity-marker {
+            position: absolute;
+            transform: translateX(-50%);
+            top: 28px;
+            font-size: 0.6rem;
+            color: #6b7280;
+            width: 50px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="max-w-6xl mx-auto px-4 py-8 md:py-16">
+        <!-- Header with Logo -->
+        <div class="text-center mb-12">
+            <div class="flex justify-center items-center mb-3">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800">Bizziy Tech</h1>
+            </div>
+            <p class="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">Simplify, Automate, Grow</p>
+            <p class="text-md text-gray-500 max-w-3xl mx-auto mt-3">Estimate the cost of your custom no-code solution with our interactive estimator tool</p>
+            <div class="w-24 h-1 gradient-bg mx-auto mt-6 rounded-full"></div>
+        </div>
+
+        <!-- Calculator Card -->
+        <div class="bg-white rounded-2xl card-shadow p-6 md:p-10 mb-10">
+            <!-- Services Selection -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Estimate Solution Complexity</h2>
+                    
+                    <!-- Solution Complexity -->
+                    <div class="mb-8">
+                        <label class="text-lg font-medium text-gray-700 block mb-3">Solution Complexity</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button class="complexity-btn py-3 px-4 border border-gray-300 rounded-lg text-center hover:bg-gray-50 focus:outline-none active" data-complexity="basic">
+                                <span class="block text-lg mb-1">Basic</span>
+                                <span class="text-xs text-gray-500">Simple workflows</span>
+                            </button>
+                            <button class="complexity-btn py-3 px-4 border border-gray-300 rounded-lg text-center hover:bg-gray-50 focus:outline-none" data-complexity="standard">
+                                <span class="block text-lg mb-1">Standard</span>
+                                <span class="text-xs text-gray-500">Multiple features</span>
+                            </button>
+                            <button class="complexity-btn py-3 px-4 border border-gray-300 rounded-lg text-center hover:bg-gray-50 focus:outline-none" data-complexity="advanced">
+                                <span class="block text-lg mb-1">Advanced</span>
+                                <span class="text-xs text-gray-500">Complex integration</span>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Pre-Development Scoping -->
+                    <div class="mb-8">
+                        <div class="flex items-center justify-between mb-3">
+                            <label class="text-lg font-medium text-gray-700">Pre-Development Scoping</label>
+                            <div class="text-lg font-semibold text-[#39c3ff]" id="scoping-cost-display">$250</div>
+                        </div>
+                        <div class="p-4 bg-[#f5f5f5] rounded-lg border border-gray-200">
+                            <p class="text-sm text-gray-700">Scoping is required for all projects. The fee is based on your selected solution complexity.</p>
+                            <div class="mt-3 text-sm">
+                                <span class="inline-block px-2 py-1 bg-white text-gray-800 rounded mr-2 mb-2 border border-gray-200">Basic: $250</span>
+                                <span class="inline-block px-2 py-1 bg-white text-gray-800 rounded mr-2 mb-2 border border-gray-200">Standard: $500</span>
+                                <span class="inline-block px-2 py-1 bg-white text-gray-800 rounded mb-2 border border-gray-200">Advanced: $750</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Development Complexity Level -->
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-lg font-medium text-gray-700">Development Complexity</label>
+                            <div class="text-lg font-semibold text-[#39c3ff]" id="dev-complexity-display">Low</div>
+                        </div>
+                        <div class="relative mt-6 mb-12">
+                            <input type="range" min="0" max="100" value="0" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-slider" id="dev-complexity">
+                            <span class="complexity-marker" style="left: 0%">Low</span>
+                            <span class="complexity-marker" style="left: 25%">Low Med</span>
+                            <span class="complexity-marker" style="left: 50%">Medium</span>
+                            <span class="complexity-marker" style="left: 75%">Med High</span>
+                            <span class="complexity-marker" style="left: 100%">High</span>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-8">Adjust based on your specific feature requirements</p>
+                    </div>
+                    
+                    <!-- Training Hours -->
+                    <div class="mb-8">
+                        <div class="flex justify-between items-center mb-3">
+                            <label class="text-lg font-medium text-gray-700">Additional Training</label>
+                            <div class="text-lg font-semibold text-[#39c3ff]" id="training-hours-display">0 hours</div>
+                        </div>
+                        <input type="range" min="0" max="20" value="0" step="1" class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-slider" id="training-hours">
+                        <div class="flex justify-between text-sm text-gray-500 mt-1">
+                            <span>0 hours</span>
+                            <span>20 hours</span>
+                        </div>
+                        <div class="flex items-center mt-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-[#39c3ff] mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                            <p class="text-sm text-gray-500"><span id="included-training-display">1</span> hours of training included free with your selected complexity</p>
+                        </div>
+                        <p class="text-sm text-gray-500 mt-1">$75 per additional training hour</p>
+                    </div>
+                </div>
+                
+                <!-- Summary and Total -->
+                <div class="bg-[#f5f5f5] rounded-xl p-6">
+                    <h2 class="text-2xl font-semibold mb-6 text-gray-800">Cost Estimator</h2>
+                    
+                    <div class="space-y-4 mb-6">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Pre-Development Scoping</span>
+                            <span class="font-medium" id="scoping-cost">$250.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Development</span>
+                            <span class="font-medium" id="dev-cost">$1,500.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Included Training (<span id="included-training-summary">1</span> hours)</span>
+                            <span class="font-medium text-[#39c3ff]">$0.00</span>
+                        </div>
+                        <div class="flex justify-between" id="additional-training-row">
+                            <span class="text-gray-600">Additional Training (0 hours)</span>
+                            <span class="font-medium" id="training-cost">$0.00</span>
+                        </div>
+                        <div class="border-t border-gray-300 pt-4 mt-4">
+                            <div class="flex justify-between">
+                                <span class="text-lg font-semibold text-gray-800">Estimated Total</span>
+                                <span class="text-lg font-bold text-[#39c3ff]" id="total-cost">$1,750.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="#" id="schedule-call" class="block w-full gradient-bg text-white font-medium py-3 px-4 rounded-lg hover:opacity-90 transition-all focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#39c3ff] text-center">
+                        Schedule a Call
+                    </a>
+                    
+                    <div class="mt-6 text-sm text-gray-500">
+                        <p class="mb-2">Prices are estimates. Final quote may vary based on specific requirements.</p>
+                        <p id="timeframe-estimate">Typical time frame to develop = 2 weeks but may vary based on specific requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Features Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div class="bg-white p-6 rounded-xl card-shadow">
+                <div class="w-12 h-12 gradient-bg rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Simplify</h3>
+                <p class="text-gray-600">Transform complex processes into intuitive no-code solutions that anyone can use.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl card-shadow">
+                <div class="w-12 h-12 gradient-bg rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Automate</h3>
+                <p class="text-gray-600">Eliminate repetitive tasks with powerful automation workflows and AI integration.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl card-shadow">
+                <div class="w-12 h-12 gradient-bg rounded-lg flex items-center justify-center mb-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-semibold mb-2">Grow</h3>
+                <p class="text-gray-600">Focus on scaling your business while your custom solution handles the rest.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elements
+            const devComplexitySlider = document.getElementById('dev-complexity');
+            const devComplexityDisplay = document.getElementById('dev-complexity-display');
+            const trainingHoursSlider = document.getElementById('training-hours');
+            const trainingHoursDisplay = document.getElementById('training-hours-display');
+            const complexityBtns = document.querySelectorAll('.complexity-btn');
+            const scopingCostDisplay = document.getElementById('scoping-cost-display');
+            const timeframeEstimate = document.getElementById('timeframe-estimate');
+            const includedTrainingDisplay = document.getElementById('included-training-display');
+            const includedTrainingSummary = document.getElementById('included-training-summary');
+            const scheduleCallBtn = document.getElementById('schedule-call');
+            
+            // Cost displays
+            const scopingCost = document.getElementById('scoping-cost');
+            const devCost = document.getElementById('dev-cost');
+            const trainingCost = document.getElementById('training-cost');
+            const totalCost = document.getElementById('total-cost');
+            const additionalTrainingRow = document.getElementById('additional-training-row');
+            
+            // Pricing rates
+            const hourlyRate = 75;
+            
+            // Complexity settings
+            const complexitySettings = {
+                'basic': { min: 20, max: 40, scoping: 250, training: 1 },
+                'standard': { min: 40, max: 80, scoping: 500, training: 3 },
+                'advanced': { min: 80, max: 200, scoping: 750, training: 6 }
+            };
+            
+            let selectedComplexity = 'basic';
+            
+            // Map complexity percentage to display text
+            function getComplexityText(percentage) {
+                if (percentage <= 20) return "Low";
+                if (percentage <= 40) return "Low Med";
+                if (percentage <= 60) return "Medium";
+                if (percentage <= 80) return "Med High";
+                return "High";
+            }
+            
+            // Calculate development hours based on complexity percentage
+            function calculateDevHours(percentage, complexity) {
+                const settings = complexitySettings[complexity];
+                const range = settings.max - settings.min;
+                return Math.round(settings.min + (range * (percentage / 100)));
+            }
+            
+            // Calculate project timeframe in weeks
+            function calculateTimeframe(hours, complexity) {
+                const scopingDays = 3;
+                let adjustedHours = hours;
+                
+                if (complexity === 'basic' || complexity === 'standard') {
+                    adjustedHours = hours * 2;
+                }
+                
+                const devDays = Math.ceil(adjustedHours / 8);
+                const totalBusinessDays = scopingDays + devDays;
+                let weeks = Math.ceil(totalBusinessDays / 5);
+                
+                if (complexity === 'advanced') {
+                    weeks += 4;
+                }
+                
+                return weeks;
+            }
+            
+            // Update displays and calculate costs
+            function updateCalculator() {
+                const complexityPercentage = parseInt(devComplexitySlider.value);
+                const trainingHours = parseInt(trainingHoursSlider.value);
+                const scopingFee = complexitySettings[selectedComplexity].scoping;
+                const includedTrainingHours = complexitySettings[selectedComplexity].training;
+                
+                const devHours = calculateDevHours(complexityPercentage, selectedComplexity);
+                const developmentCost = hourlyRate * devHours;
+                const additionalTrainingCost = hourlyRate * Math.max(0, trainingHours);
+                const finalTotal = scopingFee + developmentCost + additionalTrainingCost;
+                
+                const timeframe = calculateTimeframe(devHours, selectedComplexity);
+                
+                devComplexityDisplay.textContent = getComplexityText(complexityPercentage);
+                trainingHoursDisplay.textContent = `${trainingHours} hours`;
+                scopingCostDisplay.textContent = `$${scopingFee}`;
+                includedTrainingDisplay.textContent = includedTrainingHours;
+                includedTrainingSummary.textContent = includedTrainingHours;
+                timeframeEstimate.textContent = `Typical time frame to develop = ${timeframe} week${timeframe !== 1 ? 's' : ''} but may vary based on specific requirements.`;
+                
+                scopingCost.textContent = `$${scopingFee.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                devCost.textContent = `$${developmentCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                trainingCost.textContent = `$${additionalTrainingCost.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                totalCost.textContent = `$${finalTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+                
+                document.querySelector('#training-cost').previousElementSibling.textContent = `Additional Training (${trainingHours} hours)`;
+                
+                if (trainingHours > 0) {
+                    additionalTrainingRow.classList.remove('hidden');
+                } else {
+                    additionalTrainingRow.classList.add('hidden');
+                }
+            }
+            
+            // Update complexity settings when changing main complexity
+            function updateComplexitySettings(complexity) {
+                selectedComplexity = complexity;
+                const settings = complexitySettings[complexity];
+                
+                includedTrainingDisplay.textContent = settings.training;
+                includedTrainingSummary.textContent = settings.training;
+                scopingCostDisplay.textContent = `$${settings.scoping}`;
+                
+                devComplexitySlider.value = 0;
+                updateCalculator();
+            }
+            
+            // Event listeners
+            devComplexitySlider.addEventListener('input', updateCalculator);
+            trainingHoursSlider.addEventListener('input', updateCalculator);
+            
+            // Complexity button selection
+            complexityBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    complexityBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    updateComplexitySettings(this.getAttribute('data-complexity'));
+                });
+            });
+            
+            // Schedule Call button
+            scheduleCallBtn.addEventListener('click', function(e) {
+                const bookingUrl = "https://your-booking-service-url.com";
+                window.open(bookingUrl, '_blank');
+                e.preventDefault();
+            });
+            
+            // Initialize calculator with basic complexity
+            updateComplexitySettings('basic');
+            
+            // Ensure the slider is at 0
+            devComplexitySlider.value = 0;
+            updateCalculator();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'94499a2113e50ad3',t:'MTc0ODA1NjI0OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
